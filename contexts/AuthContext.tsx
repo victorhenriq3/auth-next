@@ -51,7 +51,7 @@ export function AuthProvider({children}: AuthProviderProps ){
                 password
             })
             
-            const {token, refreshToken, permissions, roles} = response.data
+            const {token, refreshToken, permissions, roles} = response?.data
 
             // localstorage
             // session storage
@@ -61,7 +61,10 @@ export function AuthProvider({children}: AuthProviderProps ){
                 maxAge: 60 * 60 * 24 * 30, //30 dias
                 path: '/'
             })
-            setCookie(undefined, 'nextauth.refreshToken', refreshToken)
+            setCookie(undefined, 'nextauth.refreshToken', refreshToken, {
+                maxAge: 60 * 60 * 24 * 30, //30 dias
+                path: '/'
+            })
 
             setUser({
                 email,
