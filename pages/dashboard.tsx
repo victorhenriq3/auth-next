@@ -8,7 +8,8 @@ export default function DashBoard(){
     useEffect(() => {
         api.get('/me').then(response => {
             console.log(response);
-        })
+        }).then(response => console.log(response))
+          .catch(err => console.log(err))
     }, [])
     
     return (
