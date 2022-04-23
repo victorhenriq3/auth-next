@@ -1,13 +1,16 @@
-import { destroyCookie } from 'nookies'
 import {useContext, useEffect} from 'react'
 import { AuthContext } from '../contexts/AuthContext'
-import { AuthTokenError } from '../errors/AuthTokenError'
+import { useCan } from '../hooks/useCan'
 import { setUpApiCliente } from '../services/api'
 import { api } from '../services/apiCliente'
 import { withSSRAuth } from '../utils/withSSRAuth'
 
 export default function DashBoard(){
     const { user } = useContext(AuthContext)
+
+    const userCanSeeMetrics = useCan({
+        roles: ['editor', 'administrator']
+    })
 
     useEffect(() => {
         api.get('/me').then(response => {
@@ -17,7 +20,11 @@ export default function DashBoard(){
     }, [])
     
     return (
-        <h1>DashBoard: {user?.email}</h1>
+        <>
+            <h1>DashBoard: {user?.email}</h1>
+
+            {userCanSeeMetrics && <div>Metricas</div>}
+        </>
     )
 }
 
